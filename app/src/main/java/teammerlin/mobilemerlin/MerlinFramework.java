@@ -49,7 +49,7 @@ public class MerlinFramework extends Game
 
         //Minigames
         musicmachine = new MusicMachine();
-        //echo = new Echo();
+        echo = new Echo();
 	}
 
 	@Override
