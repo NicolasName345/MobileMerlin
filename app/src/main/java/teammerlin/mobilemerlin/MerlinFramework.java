@@ -17,6 +17,7 @@ public class MerlinFramework extends Game
 {
 	private static final long serialVersionUID = 2338590104281194985L;
 
+	//Comment
 	GameState nextState, currentState, previousState;
 	Bitmap[] images;
 	HashMap<String, MediaPlayer> sounds;
