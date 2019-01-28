@@ -12,7 +12,7 @@ import java.util.HashMap;
 import teammerlin.game.Game;
 import teammerlin.game.GameState;
 import teammerlin.game.ID;
-
+//klkl
 public class MerlinFramework extends Game
 {
 	private static final long serialVersionUID = 2338590104281194985L;
