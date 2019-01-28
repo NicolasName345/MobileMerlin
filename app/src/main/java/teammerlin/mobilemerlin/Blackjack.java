@@ -1,5 +1,8 @@
 package teammerlin.mobilemerlin;
 
+import java.util.ArrayList;
+import java.util.Random;
+
 import teammerlin.game.GameState;
 
 public class Blackjack extends Minigame {
@@ -33,7 +36,7 @@ public class Blackjack extends Minigame {
         }*/
         if(displaychips)
         {
-            panel.setLights(chips, 1);
+            panel.setLight(chips, 1);
             if(timer == 23)
             {
                 newhand = true;
