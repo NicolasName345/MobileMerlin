@@ -22,7 +22,7 @@ public class MerlinFramework extends Game
 	Bitmap[] images;
 	HashMap<String, MediaPlayer> sounds;
 	Panel panel;
-	Minigame musicmachine, echo;
+	Minigame musicmachine, echo, blackjack;
 
 	public MerlinFramework(Context context, int baseWidth, int baseHeight)
 	{
@@ -149,6 +149,25 @@ public class MerlinFramework extends Game
                 break;
 
             case Blackjack:
+                if(newState())
+                {
+                    panel.clearLights();
+                    panel.setLight(5,1);
+                    panel.playSound("select");
+                    blackjack = new Blackjack();
+                }
+                blackjack.update(panel);
+
+                if(panel.getButton(11))//New Game pressed
+                {
+                    panel.playSound("newgame");
+                    nextState = GameState.NewGame;
+                }
+
+                if(panel.getButton(12))//Same Game pressed
+                {
+                    nextState = GameState.SameGame;
+                }
                 break;
 
             case MagicSquare:
