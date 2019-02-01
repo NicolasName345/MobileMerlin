@@ -14,6 +14,7 @@ public class Blackjack extends Minigame {
     boolean secondhand;
     boolean hit;
     boolean stand;
+    boolean bust;
     private int timer;
     ArrayList<Integer> dealerdeck;
     ArrayList<Integer> userdeck;
@@ -32,15 +33,23 @@ public class Blackjack extends Minigame {
         newhand = false;
         dealerdeck = new ArrayList<Integer>();
         userdeck = new ArrayList<Integer>();
+        bust = false;
     }
 
     @Override
     public void update(Panel panel)
     {
-        /*if(panel.getButton(1))
+
+
+
+        if(bust)
         {
-            panel.setLight(1, 1);
-        }*/
+            panel.playSound("lose");
+            if(timer == 23)
+            {
+                bust = false;
+            }
+        }
 
         buttonPresses(panel);
         ShuffleDecks();
@@ -58,14 +67,14 @@ public class Blackjack extends Minigame {
         if (newhand)
         {
             panel.clearLights();
-            for(int i =0; i<=1; i++)
-            {
+
+
 
                 panel.setLight(userdeck.get(0), 2);
                 panel.setLight(dealerdeck.get(0), 1);
                 userhand = userhand + userdeck.get(0);
                 dealerhand = dealerhand + dealerdeck.get(0);
-            }
+
 
             newhand = false;
             secondhand = true;
@@ -74,13 +83,15 @@ public class Blackjack extends Minigame {
 
         if(secondhand && hit)
         {
-            for(int i =0; i<=1; i++) {
-
                 panel.setLight(userdeck.get(1), 2);
                 panel.setLight(dealerdeck.get(1), 1);
                 userhand = userhand + userdeck.get(1);
                 dealerhand = dealerhand + dealerdeck.get(1);
-            }
+                if(userhand >13)
+                {
+                    bust = true;
+                }
+
             hit = false;
         }
 
@@ -118,6 +129,8 @@ public class Blackjack extends Minigame {
         int randomnumber = rn.nextInt(10)+1;
         return randomnumber;*/
     }
+
+
 
 
 
