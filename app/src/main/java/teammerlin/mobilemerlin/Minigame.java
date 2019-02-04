@@ -6,4 +6,6 @@ public class Minigame {
 
     public void update(Panel panel){};
 
+    public void sameGame(Panel panel){};
+
 }

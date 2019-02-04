@@ -12,16 +12,17 @@ import java.util.HashMap;
 import teammerlin.game.Game;
 import teammerlin.game.GameState;
 import teammerlin.game.ID;
-
+//klkl
 public class MerlinFramework extends Game
 {
 	private static final long serialVersionUID = 2338590104281194985L;
 
+	//Comment
 	GameState nextState, currentState, previousState;
 	Bitmap[] images;
 	HashMap<String, MediaPlayer> sounds;
 	Panel panel;
-	Minigame musicmachine, echo;
+	Minigame musicmachine, echo, blackjack, mindbender;
 
 	public MerlinFramework(Context context, int baseWidth, int baseHeight)
 	{
@@ -50,6 +51,8 @@ public class MerlinFramework extends Game
         //Minigames
         musicmachine = new MusicMachine();
         echo = new Echo();
+        blackjack = new Blackjack();
+        mindbender = new Mindbender();
 	}
 
 	@Override
@@ -148,12 +151,51 @@ public class MerlinFramework extends Game
                 break;
 
             case Blackjack:
+                if(newState())
+                {
+                    panel.clearLights();
+                    panel.setLight(5,1);
+                    panel.playSound("select");
+                    blackjack = new Blackjack();
+                }
+                blackjack.update(panel);
+
+                if(panel.getButton(11))//New Game pressed
+                {
+                    panel.playSound("newgame");
+                    nextState = GameState.NewGame;
+                }
+
+                if(panel.getButton(12))//Same Game pressed
+                {
+                    nextState = GameState.SameGame;
+                }
                 break;
 
             case MagicSquare:
                 break;
 
             case Mindbender:
+                if(newState())
+                {
+                    panel.clearLights();
+                    panel.setLight(0, 2);
+                    panel.setLight(10, 2);
+                    panel.playSound("select");
+                    mindbender = new Mindbender();
+                }
+                mindbender.update(panel);
+
+                if(panel.getButton(11))//New Game pressed
+                {
+                    panel.playSound("newgame");
+                    nextState = GameState.NewGame;
+                }
+
+                if(panel.getButton(12))//Same Game pressed
+                {
+                    mindbender.sameGame(panel);
+                }
                 break;
 
 		}
