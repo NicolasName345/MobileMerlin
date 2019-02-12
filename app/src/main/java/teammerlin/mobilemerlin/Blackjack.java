@@ -1,5 +1,7 @@
 package teammerlin.mobilemerlin;
 
+import android.util.Log;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Random;
@@ -15,11 +17,13 @@ public class Blackjack extends Minigame {
     boolean hit;
     boolean stand;
     boolean bust;
+    boolean merlinbust;
     private int timer;
-    ArrayList<Integer> dealerdeck;
-    ArrayList<Integer> userdeck;
+    ArrayList<Integer> deck;
+
     int userhand = 0;
     int dealerhand = 0;
+    int i = 0;
 
 
 
@@ -31,28 +35,51 @@ public class Blackjack extends Minigame {
         chips = 5;
         displaychips = true;
         newhand = false;
-        dealerdeck = new ArrayList<Integer>();
-        userdeck = new ArrayList<Integer>();
+        deck = new ArrayList<Integer>();
+
         bust = false;
+        merlinbust = false;
     }
 
     @Override
     public void update(Panel panel)
     {
 
+        if(userhand>13)
+        {
+            bust = true;
+            userhand = 0;
+        }
 
+        if(dealerhand>13)
+        {
+            merlinbust = true;
+            dealerhand = 0;
+        }
 
         if(bust)
         {
             panel.playSound("lose");
-            if(timer == 23)
-            {
+
+
                 bust = false;
-            }
+
+        }
+
+        if(merlinbust)
+        {
+            panel.playSound("win");
+            merlinbust = false;
         }
 
         buttonPresses(panel);
-        ShuffleDecks();
+
+       /* for(int i=0; i<=1; i++)
+        {
+            ShuffleDecks();
+        }
+        */
+
 
         if(displaychips)
         {
@@ -67,32 +94,58 @@ public class Blackjack extends Minigame {
         if (newhand)
         {
             panel.clearLights();
+            ShuffleDecks();
+            panel.setLight(deck.get(i), 2);
+            userhand = userhand + deck.get(i);
 
+            panel.setLight(deck.get(i+1), 1);
+            dealerhand = dealerhand + deck.get(i+1);
 
-
-                panel.setLight(userdeck.get(0), 2);
-                panel.setLight(dealerdeck.get(0), 1);
-                userhand = userhand + userdeck.get(0);
-                dealerhand = dealerhand + dealerdeck.get(0);
-
+            i++;
 
             newhand = false;
-            secondhand = true;
-
         }
 
-        if(secondhand && hit)
+        if(hit)
         {
-                panel.setLight(userdeck.get(1), 2);
-                panel.setLight(dealerdeck.get(1), 1);
-                userhand = userhand + userdeck.get(1);
-                dealerhand = dealerhand + dealerdeck.get(1);
-                if(userhand >13)
-                {
-                    bust = true;
-                }
+            panel.setLight(deck.get(i), 2);
+            userhand = userhand + deck.get(i);
+
+            panel.setLight(deck.get(i+1), 1);
+            dealerhand = dealerhand + deck.get(i+1);
+
+            i++;
+
 
             hit = false;
+            //ShuffleDecks();
+        }
+
+        if(stand)
+        {
+            
+            if(dealerhand>userhand)
+            {
+
+                    panel.playSound("lose");
+                    panel.clearLights();
+                    dealerhand = 0;
+                    userhand = 0;
+
+
+            }
+            else if(dealerhand<userhand)
+            {
+                timer = 0;
+                timer++;
+                if(timer == 24)
+                {
+                    panel.setLight(deck.get(i), 1);
+                    i++;
+                    timer = 0;
+                }
+            }
+
         }
 
 
@@ -116,14 +169,21 @@ public class Blackjack extends Minigame {
 
     public void ShuffleDecks()
     {
-        for (int i = 1; i <= 10; i++) {
-            dealerdeck.add(i);
-        }
-        for (int i = 1; i <= 10; i++) {
-            userdeck.add(i);
-        }
-        Collections.shuffle(dealerdeck);
-        Collections.shuffle(userdeck);
+        deck.add(1);
+        deck.add(2);
+        deck.add(3);
+        deck.add(4);
+        deck.add(5);
+        deck.add(6);
+        deck.add(7);
+        deck.add(8);
+        deck.add(9);
+        deck.add(10);
+
+
+
+        Collections.shuffle(deck);
+
 
         /*Random rn = new Random();
         int randomnumber = rn.nextInt(10)+1;
@@ -143,6 +203,7 @@ public class Blackjack extends Minigame {
         if(panel.getButton(13))
         {
             hit = true;
+            i++;
         }
 
         if(panel.getButton(14))
