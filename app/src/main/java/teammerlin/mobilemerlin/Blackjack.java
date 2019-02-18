@@ -31,7 +31,7 @@ public class Blackjack extends Minigame {
     {
 
         super();
-        timer = 0;
+
         chips = 5;
         displaychips = true;
         newhand = false;
@@ -79,7 +79,7 @@ public class Blackjack extends Minigame {
         if(displaychips)
         {
             panel.setLight(chips, 1);
-            if(timer == 23)
+            if(panel.timerReady())
             {
                 newhand = true;
                 displaychips = false;
@@ -123,7 +123,7 @@ public class Blackjack extends Minigame {
             {
 
                     panel.playSound("lose");
-                    panel.clearLights();
+                    //panel.clearLights();
                     dealerhand = 0;
                     userhand = 0;
 
@@ -131,13 +131,13 @@ public class Blackjack extends Minigame {
             }
             else if(dealerhand<userhand)
             {
-                timer = 0;
-                timer++;
-                if(timer == 24)
+
+                if(panel.timerReady())
                 {
                     panel.setLight(deck.get(i), 1);
+                    dealerhand = dealerhand + i;
                     i++;
-                    timer = 0;
+
                 }
             }
 
@@ -154,11 +154,6 @@ public class Blackjack extends Minigame {
 
 
 
-        timer++;
-        if(timer == 24)
-        {
-            timer = 0;
-        }
     }
 
 
