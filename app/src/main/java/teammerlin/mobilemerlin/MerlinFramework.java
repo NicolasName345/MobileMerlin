@@ -157,6 +157,7 @@ public class MerlinFramework extends Game
                     panel.clearLights();
                     panel.setLight(5,1);
                     panel.playSound("select");
+                    
                     blackjack = new Blackjack();
                 }
                 blackjack.update(panel);

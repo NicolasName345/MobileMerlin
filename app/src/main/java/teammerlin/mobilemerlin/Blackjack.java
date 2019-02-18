@@ -74,11 +74,6 @@ public class Blackjack extends Minigame {
 
         buttonPresses(panel);
 
-       /* for(int i=0; i<=1; i++)
-        {
-            ShuffleDecks();
-        }
-        */
 
 
         if(displaychips)
@@ -169,7 +164,7 @@ public class Blackjack extends Minigame {
 
     public void ShuffleDecks()
     {
-        deck.add(1);
+        /*deck.add(1);
         deck.add(2);
         deck.add(3);
         deck.add(4);
@@ -178,16 +173,16 @@ public class Blackjack extends Minigame {
         deck.add(7);
         deck.add(8);
         deck.add(9);
-        deck.add(10);
+        deck.add(10);*/
 
-
+        for(i=0; i <=10; i++)
+        {
+            deck.add(i);
+        }
 
         Collections.shuffle(deck);
 
 
-        /*Random rn = new Random();
-        int randomnumber = rn.nextInt(10)+1;
-        return randomnumber;*/
     }
 
 
