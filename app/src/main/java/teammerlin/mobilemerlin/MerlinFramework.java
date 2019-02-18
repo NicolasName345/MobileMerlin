@@ -110,6 +110,7 @@ public class MerlinFramework extends Game
                     panel.clearLights();
                     panel.setLight(10, 2);
                     panel.playSound("select");
+                    panel.setTimer(24);
                     musicmachine = new MusicMachine();
                 }
 

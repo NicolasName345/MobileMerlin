@@ -22,8 +22,8 @@ public class Panel extends GameObject
 	Button[] buttons;
     HashMap<String, MediaPlayer> sounds;
 
-	int timer;
-	boolean blinking;
+	int timer, gameTimer, gameTimerLimit;
+	boolean blinking, gameTimerReady;
 
 	public Panel(int x, int y, float scale, Bitmap[] images, HashMap<String, MediaPlayer> sounds, ID id)
 	{
@@ -33,6 +33,9 @@ public class Panel extends GameObject
 		this.sounds = sounds;
 
 		timer = 0;
+		gameTimer = 0;
+		gameTimerLimit = 1;
+		gameTimerReady = false;
 		blinking = false;
 	}
 
@@ -40,6 +43,19 @@ public class Panel extends GameObject
 	public void update() {}
 
 	public void update(TouchState touch) {
+
+		//Game Timer
+		if(gameTimer == gameTimerLimit)
+		{
+			gameTimer = 0;
+			gameTimerReady = true;
+		}
+		else
+		{
+			gameTimer++;
+			gameTimerReady = false;
+		}
+
 
 		//Timer
 		timer++;
@@ -58,6 +74,18 @@ public class Panel extends GameObject
 	public int getTimer()
 	{
 		return timer;
+	}
+
+	public void setTimer(int limit)
+	{
+		gameTimer = 0;
+		gameTimerReady = false;
+		gameTimerLimit = limit;
+	}
+
+	public boolean timerReady()
+	{
+		return gameTimerReady;
 	}
 
 	@Override
