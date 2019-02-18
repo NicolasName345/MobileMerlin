@@ -7,7 +7,6 @@ public class MusicMachine extends Minigame {
     private LinkedList<String> memory;
     private boolean playback;
     private int playbackPlace;
-    private int timer;
 
     public MusicMachine()
     {
@@ -15,7 +14,6 @@ public class MusicMachine extends Minigame {
         memory = new LinkedList<String>();
         playback = false;
         playbackPlace = 0;
-        timer = 0;
     }
 
     @Override
@@ -28,7 +26,7 @@ public class MusicMachine extends Minigame {
             playback = true;
         }
 
-        if(playback && timer == 23)
+        if(playback && panel.timerReady())
         {
             if(!memory.isEmpty())
             {
@@ -49,12 +47,6 @@ public class MusicMachine extends Minigame {
                     panel.setLight(10, 2);
                 }
             }
-        }
-
-        timer++;
-        if(timer == 24)
-        {
-            timer = 0;
         }
     }
 
