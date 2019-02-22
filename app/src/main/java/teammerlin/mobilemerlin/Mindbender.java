@@ -4,20 +4,25 @@ import java.util.Random;
 
 public class Mindbender extends Minigame {
 
-    private int length, guessCount, pointer, blinking, steady, timer;
-    private int[] mystery, guess;
+    private enum State {
+        ChooseLength(),
+        ChooseMystery(),
+        UserInput(),
+        CompareNumbers(),
+        Freeze(),
+        SameGame();
+    }
 
-    private boolean chooseLength, chooseMystery, userInput, compareNumbers, sameGame;
+    private State state;
+    private int length, guessCount, pointer, blinking, steady;
+    private int[] mystery, guess;
+    private boolean first;
 
     public Mindbender()
     {
         super();
-        timer = 0;
-        chooseLength = true;
-        chooseMystery = false;
-        userInput = false;
-        compareNumbers = false;
-        sameGame = false;
+        state = State.ChooseLength;
+        first = true;
     }
 
     @Override
@@ -26,7 +31,7 @@ public class Mindbender extends Minigame {
         //Temp variables
         int button = buttonPressed(panel);
 
-        if(chooseLength)
+        if(state == State.ChooseLength)
         {
             if(button != -1)
             {
@@ -34,11 +39,10 @@ public class Mindbender extends Minigame {
                 panel.clearLights();
                 panel.setLight(10, 2);
                 panel.playSound("tttCross");
-                chooseLength = false;
-                chooseMystery = true;
+                state = State.ChooseMystery;
             }
         }
-        else if(chooseMystery)
+        else if(state == State.ChooseMystery)
         {
             mystery = new int[length];
             guess = new int[length];
@@ -48,10 +52,9 @@ public class Mindbender extends Minigame {
             }
             guessCount = 0;
             pointer = 0;
-            chooseMystery = false;
-            userInput = true;
+            state = State.UserInput;
         }
-        else if(userInput)
+        else if(state == State.UserInput)
         {
             if(button != -1)
             {
@@ -63,14 +66,15 @@ public class Mindbender extends Minigame {
             {
                 pointer = 0;
                 guessCount++;
-                userInput = false;
-                compareNumbers = true;
+                state = State.CompareNumbers;
+                first = true;
             }
         }
-        else if(compareNumbers)
+        else if(state == State.CompareNumbers)
         {
-            if(timer == 0)
+            if(first)
             {
+                //Comparing guess values to mystery values
                 blinking = 0;
                 steady = 0;
                 for (int i = 0; i < length; i++) {
@@ -82,6 +86,7 @@ public class Mindbender extends Minigame {
                     }
                 }
 
+                //Set blinking and steady lights
                 panel.clearLights();
                 for (int i = 0; i < blinking; i++) {
                     panel.setLight(1 + i, 2);
@@ -90,46 +95,41 @@ public class Mindbender extends Minigame {
                     panel.setLight(1 + i + blinking, 1);
                 }
 
-                timer = 1;
+                first = false;
+                panel.setTimer(24);
             }
-            else
+            else if(panel.timerReady())
             {
-                timer++;
-
-                if(timer == 24) {
-                    if (blinking == length)//Won
-                    {
-                        compareNumbers = false;
-                        panel.playSound("win");
-                    } else {
-                        compareNumbers = false;
-                        userInput = true;
-                        panel.playSound("lose");
-                    }
-                    timer = 0;
+                if (blinking == length)//Won
+                {
+                    state = State.Freeze;
+                    panel.playSound("win");
+                } else {
+                    state = State.UserInput;
+                    panel.playSound("lose");
                 }
             }
 
         }
 
-        if(sameGame)
+        if(state == State.SameGame)
         {
-            if(guessCount > 9)
+            if(first)
             {
-                guessCount = 9;
-            }
+                if(guessCount > 9)
+                {
+                    guessCount = 9;
+                }
 
-            panel.clearLights();
-            panel.setLight(guessCount, 1);
-            timer++;
-            if(timer == 30)
+                panel.clearLights();
+                panel.setLight(guessCount, 1);
+
+                first = false;
+                panel.setTimer(24);
+            }
+            else if(panel.timerReady())
             {
-                timer = 0;
-                chooseLength = false;
-                chooseMystery = true;
-                userInput = false;
-                compareNumbers = false;
-                sameGame = false;
+                state = State.ChooseMystery;
                 panel.clearLights();
                 panel.setLight(10, 2);
             }
@@ -142,9 +142,10 @@ public class Mindbender extends Minigame {
     public void sameGame(Panel panel)
     {
         panel.playSound("select");
-        if(!chooseLength)
+        if(state != State.ChooseLength)
         {
-            sameGame = true;
+            state = State.SameGame;
+            first = true;
         }
     }
 

@@ -101,10 +101,10 @@ public class MerlinFramework extends Game
                 }
                 break;
 
-			case TicTacToe:
+			case TicTacToe://1
 				break;
 
-            case MusicMachine:
+            case MusicMachine://2
                 if(newState())
                 {
                     panel.clearLights();
@@ -128,7 +128,7 @@ public class MerlinFramework extends Game
                 }
                 break;
 
-            case Echo:
+            case Echo://3
                 if(newState())
                 {
                     panel.clearLights();
@@ -152,7 +152,7 @@ public class MerlinFramework extends Game
                 }
                 break;
 
-            case Blackjack:
+            case Blackjack://4
                 if(newState())
                 {
                     panel.clearLights();
@@ -176,7 +176,7 @@ public class MerlinFramework extends Game
                 }
                 break;
 
-            case MagicSquare:
+            case MagicSquare://5
                 if(newState())
                 {
 

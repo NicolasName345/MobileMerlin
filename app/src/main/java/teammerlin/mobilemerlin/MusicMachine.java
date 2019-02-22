@@ -4,53 +4,66 @@ import java.util.LinkedList;
 
 public class MusicMachine extends Minigame {
 
+    private enum State {
+        UserInput(),
+        Playback();
+    }
+
+    State state;
     private LinkedList<String> memory;
-    private boolean playback;
     private int playbackPlace;
 
     public MusicMachine()
     {
         super();
+        state = State.UserInput;
         memory = new LinkedList<String>();
-        playback = false;
         playbackPlace = 0;
     }
 
     @Override
     public void update(Panel panel)
     {
-        buttonPresses(panel);
-
-        if(panel.getButton(14))
+        if(state == State.UserInput)
         {
-            playback = true;
-        }
+            //Check for music button presses
+            musicButtons(panel);
 
-        if(playback && panel.timerReady())
-        {
-            if(!memory.isEmpty())
+            //Check for Computer Turn button press
+            if(panel.getButton(14))
             {
+                state = State.Playback;
+                panel.setTimer(24);
+            }
+        }
+        else if(state == State.Playback && panel.timerReady())
+        {
+            if(playbackPlace != memory.size())
+            {
+                //Play sound
                 if(memory.get(playbackPlace) != "pause")
                 {
                     panel.playSound(memory.get(playbackPlace));
                 }
+
+                //Set lights
                 panel.clearLights();
                 panel.setLight(buttonToLight(memory.get(playbackPlace)), 1);
 
+                //Move to next sound
                 playbackPlace++;
-
-                if(playbackPlace == memory.size())
-                {
-                    playbackPlace = 0;
-                    playback = false;
-                    panel.clearLights();
-                    panel.setLight(10, 2);
-                }
+            }
+            else
+            {
+                playbackPlace = 0;
+                panel.clearLights();
+                panel.setLight(10, 2);
+                state = State.UserInput;
             }
         }
     }
 
-    private void buttonPresses(Panel panel)
+    private void musicButtons(Panel panel)
     {
         if(panel.getButton(0))
         {
