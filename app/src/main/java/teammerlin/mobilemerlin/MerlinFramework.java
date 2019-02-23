@@ -5,7 +5,9 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Paint;
+import android.media.AudioAttributes;
 import android.media.MediaPlayer;
+import android.media.SoundPool;
 
 import java.util.HashMap;
 
@@ -20,8 +22,8 @@ public class MerlinFramework extends Game
 	//Comment
 	GameState nextState, currentState, previousState;
 	Bitmap[] images;
-	HashMap<String, MediaPlayer> sounds;
-	Panel panel;
+	HashMap<String, Integer> sounds;
+    Panel panel;
 	Minigame tictactoe, musicmachine, echo, blackjack, mindbender, magicsquare;
 
 	public MerlinFramework(Context context, int baseWidth, int baseHeight)
@@ -46,7 +48,7 @@ public class MerlinFramework extends Game
 		loadSounds();
 
 		//Panel
-        panel = new Panel(anchorX, anchorY, scale, images, sounds, ID.Panel);
+        panel = new Panel(anchorX, anchorY, scale, images, sounds, soundPool, ID.Panel);
 
         //Minigames
         tictactoe = new TicTacToe();
@@ -272,27 +274,27 @@ public class MerlinFramework extends Game
 
 	private void loadSounds()
 	{
-		sounds = new HashMap<String, MediaPlayer>();
+		sounds = new HashMap<String, Integer>();
 
-		sounds.put("mm0", MediaPlayer.create(context, R.raw.music0));
-        sounds.put("mm1", MediaPlayer.create(context, R.raw.music1));
-        sounds.put("mm2", MediaPlayer.create(context, R.raw.music2));
-        sounds.put("mm3", MediaPlayer.create(context, R.raw.music3));
-        sounds.put("mm4", MediaPlayer.create(context, R.raw.music4));
-        sounds.put("mm5", MediaPlayer.create(context, R.raw.music5));
-        sounds.put("mm6", MediaPlayer.create(context, R.raw.music6));
-        sounds.put("mm7", MediaPlayer.create(context, R.raw.music7));
-        sounds.put("mm8", MediaPlayer.create(context, R.raw.music8));
-        sounds.put("mm9", MediaPlayer.create(context, R.raw.music9));
-        sounds.put("blackjackComplete", MediaPlayer.create(context, R.raw.blackjackcomp));
-        sounds.put("buzz", MediaPlayer.create(context, R.raw.buzz));
-        sounds.put("tttCircle", MediaPlayer.create(context, R.raw.circle));
-        sounds.put("tttCross", MediaPlayer.create(context, R.raw.cross));
-        sounds.put("lose", MediaPlayer.create(context, R.raw.lose));
-        sounds.put("newgame", MediaPlayer.create(context, R.raw.newgame));
-        sounds.put("select", MediaPlayer.create(context, R.raw.select));
-        sounds.put("tie", MediaPlayer.create(context, R.raw.tie));
-        sounds.put("win", MediaPlayer.create(context, R.raw.win));
+		sounds.put("mm0", soundPool.load(context, R.raw.music0, 1));
+        sounds.put("mm1", soundPool.load(context, R.raw.music1, 1));
+        sounds.put("mm2", soundPool.load(context, R.raw.music2, 1));
+        sounds.put("mm3", soundPool.load(context, R.raw.music3, 1));
+        sounds.put("mm4", soundPool.load(context, R.raw.music4, 1));
+        sounds.put("mm5", soundPool.load(context, R.raw.music5, 1));
+        sounds.put("mm6", soundPool.load(context, R.raw.music6, 1));
+        sounds.put("mm7", soundPool.load(context, R.raw.music7, 1));
+        sounds.put("mm8", soundPool.load(context, R.raw.music8, 1));
+        sounds.put("mm9", soundPool.load(context, R.raw.music9, 1));
+        sounds.put("blackjackComplete", soundPool.load(context, R.raw.blackjackcomp, 1));
+        sounds.put("buzz", soundPool.load(context, R.raw.buzz, 1));
+        sounds.put("tttCircle", soundPool.load(context, R.raw.circle, 1));
+        sounds.put("tttCross", soundPool.load(context, R.raw.cross, 1));
+        sounds.put("lose", soundPool.load(context, R.raw.lose, 1));
+        sounds.put("newgame", soundPool.load(context, R.raw.newgame, 1));
+        sounds.put("select", soundPool.load(context, R.raw.select, 1));
+        sounds.put("tie", soundPool.load(context, R.raw.tie, 1));
+        sounds.put("win", soundPool.load(context, R.raw.win, 1));
 	}
 
 	private boolean newState()

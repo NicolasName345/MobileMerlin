@@ -7,9 +7,12 @@ import android.graphics.LinearGradient;
 import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.Shader;
+import android.media.AudioAttributes;
 import android.media.MediaPlayer;
+import android.media.SoundPool;
 import android.provider.MediaStore;
 
+import java.io.IOException;
 import java.util.HashMap;
 
 import teammerlin.game.GameObject;
@@ -20,17 +23,19 @@ public class Panel extends GameObject
 {
 
 	Button[] buttons;
-    HashMap<String, MediaPlayer> sounds;
+    HashMap<String, Integer> sounds;
+    SoundPool soundPool;
 
 	int timer, gameTimer, gameTimerLimit;
 	boolean blinking, gameTimerReady;
 
-	public Panel(int x, int y, float scale, Bitmap[] images, HashMap<String, MediaPlayer> sounds, ID id)
+	public Panel(int x, int y, float scale, Bitmap[] images, HashMap<String, Integer> sounds, SoundPool soundPool, ID id)
 	{
 		super(x, y , scale, id);
 
 		setButtons(images);
 		this.sounds = sounds;
+		this.soundPool = soundPool;
 
 		timer = 0;
 		gameTimer = 0;
@@ -115,7 +120,7 @@ public class Panel extends GameObject
 
 	public void playSound(String key)
 	{
-		sounds.get(key).start();
+		System.out.println(soundPool.play(sounds.get(key), 1, 1, 1, 0, 1));
 	}
 	
 	public void setLight(int index, int value)

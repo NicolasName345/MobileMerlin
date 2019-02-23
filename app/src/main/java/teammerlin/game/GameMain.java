@@ -42,4 +42,11 @@ public class GameMain extends AppCompatActivity {
 		super.onResume();
 		myGame.resume();
 	}
+
+	@Override
+	protected void onDestroy()
+	{
+		super.onDestroy();
+
+	}
 }

@@ -57,7 +57,7 @@ public class TicTacToe extends Minigame {
         else if(state == State.CompTurn)
         {
             int placeToFill = 0;
-            
+
             if(sumsContain(-2))//If the AI is set up to win, fill the solution
             {
                 placeToFill = nextEmptyInSolution(getSolutionWithSum(-2));
