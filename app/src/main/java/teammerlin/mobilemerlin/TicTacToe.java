@@ -57,18 +57,18 @@ public class TicTacToe extends Minigame {
         else if(state == State.CompTurn)
         {
             int placeToFill = 0;
-
-            if(grid[5] == "none")//If middle is empty
+            
+            if(sumsContain(-2))//If the AI is set up to win, fill the solution
             {
-                placeToFill = 5;
-            }
-            else if(sumsContain(2))//If there is a danger
-            {
-                int dangerSolution = getSolutionWithSum(2);
-                placeToFill = nextEmptyInSolution(dangerSolution);
+                placeToFill = nextEmptyInSolution(getSolutionWithSum(-2));
 
             }
-            else
+            else if(sumsContain(2))//If the human is set up to win, block the solution
+            {
+                placeToFill = nextEmptyInSolution(getSolutionWithSum(2));
+
+            }
+            else//If none of the above, follow AI Solution
             {
                 //Check if AISolution is still valid
                 if(!isSolutionValid(AISolution))
