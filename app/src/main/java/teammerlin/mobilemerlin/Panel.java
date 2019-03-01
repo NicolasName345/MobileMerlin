@@ -128,6 +128,20 @@ public class Panel extends GameObject
 		((CircleButton)buttons[index]).setLight(value);
 	}
 
+	public void switchLight(int index)
+	{
+		CircleButton button = (CircleButton)buttons[index];
+
+		if(button.getLight() == 0)
+		{
+			setLight(index, 1);
+		}
+		else if(button.getLight() == 1)
+		{
+			setLight(index, 0);
+		}
+	}
+
 	public void clearLights()
 	{
 		for(int l = 0; l < 11; l++)
