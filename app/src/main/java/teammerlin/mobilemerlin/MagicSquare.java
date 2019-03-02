@@ -119,12 +119,6 @@ public class MagicSquare extends Minigame {
                     panel.switchLight(buttonNine[i]);
             }
 
-            if (panel.getButton(0))
-            {
-                for (int i=0; i<magicSquare.length; i++)
-                {
-                    panel.setLight(magicSquare[i],2);
-                }
             }
 
             if (panel.isMagicSquare())
