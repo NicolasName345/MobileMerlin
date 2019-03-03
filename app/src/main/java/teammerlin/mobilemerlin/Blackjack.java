@@ -45,37 +45,59 @@ public class Blackjack extends Minigame {
     public void update(Panel panel)
     {
 
+
+        //player busts
         if(userhand>13)
         {
-            bust = true;
+            panel.playSound("lose");
+            stand = false;
             userhand = 0;
+
         }
 
+        //dealer busts
         if(dealerhand>13)
         {
-            merlinbust = true;
+
+            panel.playSound("win");
+            //panel.clearLights();
+            chips++;
+            stand = false;
             dealerhand = 0;
-        }
-
-        if(bust)
-        {
-            panel.playSound("lose");
-
-
-                bust = false;
 
         }
 
-        if(merlinbust)
+
+        //player hits blackjack
+        if(userhand==13)
         {
             panel.playSound("win");
-            merlinbust = false;
+            stand = false;
+            userhand=0;
+
+            chips++;
         }
+
+
+        //dealer hits blackjack
+        if (dealerhand ==13)
+        {
+            panel.playSound("lose");
+            stand = false;
+            dealerhand = 0;
+
+        }
+
+
+
+
+
+
 
         buttonPresses(panel);
 
 
-
+        //displays chips at start of game
         if(displaychips)
         {
             panel.setLight(chips, 1);
@@ -86,6 +108,8 @@ public class Blackjack extends Minigame {
             }
         }
 
+
+        //deal first hand
         if (newhand)
         {
             panel.clearLights();
@@ -101,37 +125,25 @@ public class Blackjack extends Minigame {
             newhand = false;
         }
 
+
+        //player hits
         if(hit)
         {
+
+
             panel.setLight(deck.get(i), 2);
             userhand = userhand + deck.get(i);
-
-            panel.setLight(deck.get(i+1), 1);
-            dealerhand = dealerhand + deck.get(i+1);
-
             i++;
-
-
             hit = false;
-            //ShuffleDecks();
+
         }
 
+
+        //player stands, if merlin <10 he hits, if merlin is >=10 he stands and then compares his hand to player
         if(stand)
         {
-            
-            if(dealerhand>userhand)
+            if(dealerhand<10)
             {
-
-                    panel.playSound("lose");
-                    //panel.clearLights();
-                    dealerhand = 0;
-                    userhand = 0;
-
-
-            }
-            else if(dealerhand<userhand)
-            {
-
                 if(panel.timerReady())
                 {
                     panel.setLight(deck.get(i), 1);
@@ -140,6 +152,31 @@ public class Blackjack extends Minigame {
 
                 }
             }
+            else if (dealerhand>=10)
+            {
+                if(dealerhand<userhand)
+                {
+                    panel.playSound("win");
+                    //dealerhand=0;
+                    //userhand=0;
+                    stand = false;
+                    chips++;
+                }
+
+                if(dealerhand>userhand)
+                {
+                    panel.playSound("lose");
+                    //dealerhand = 0;
+                    //userhand = 0;
+                    stand = false;
+
+                }
+            }
+
+
+
+
+
 
         }
 
@@ -156,7 +193,7 @@ public class Blackjack extends Minigame {
 
     }
 
-
+    //"shuffels deck" ensuring random numbers drawn each time
     public void ShuffleDecks()
     {
         /*deck.add(1);
