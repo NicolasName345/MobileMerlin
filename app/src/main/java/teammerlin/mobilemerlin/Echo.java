@@ -30,7 +30,21 @@ public class Echo extends Minigame {
                 panel.playSound("tttCross");
                 panel.clearLights();
                 panel.setLight(10,2);
+                panel.setLight(0,2);
                 state=State.UserInput;
+            }
+        }
+        else if(state==State.UserInput){
+
+            //If there was a button pressed
+            if(button != -1)
+            {
+                grid[button] = "ex";
+                panel.setLight(10, 0);//Turn off light 10
+                panel.setLight(button, 2);
+                panel.playSound("tttCross");
+                state = State.CheckWinner;
+                panel.setTimer(24);
             }
         }
 
