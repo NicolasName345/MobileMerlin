@@ -33,7 +33,7 @@ public class Echo extends Minigame {
                 state=State.UserInput;
             }
         }
-        
+
     }
 
     private int gridButtons(Panel panel)
