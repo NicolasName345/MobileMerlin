@@ -16,9 +16,12 @@ public class Echo extends Minigame {
     private State state;
     private int length;
     private LinkedList<String> memory;
+    private ArrayList<String> checkWin;
     private int playbackPlace;
     private int addNote;
     private Random random = new Random();
+    boolean firstPlay = false;
+    private int index;
 
     ArrayList<String> list = new ArrayList<String>();
 
@@ -28,6 +31,7 @@ public class Echo extends Minigame {
         state = State.ChooseLength;
         length = 1;
         memory = new LinkedList<String>();
+        checkWin = new ArrayList<String>();
         playbackPlace = 0;
         addNote = 1;
         list.add("mm0");
@@ -52,25 +56,37 @@ public class Echo extends Minigame {
                 panel.playSound("tttCross");
                 panel.clearLights();
                 panel.setLight(10,2);
-                //for(addNote=0; addNote<=length; addNote++) //Create random tune
-                //    memory.add(getRandomButton(list));
-                memory.add("mm5");
-                memory.add("mm6");
-                System.out.println(memory.size());
                 state=State.UserInput;
+                for(addNote=1; addNote<=length; addNote++) //Create random tune
+                {
+                    memory.add(getRandomButton(list));
+                }
             }
         }
 
         if(state==State.UserInput){
             //If Comp Turn is pressed
-            if(panel.getButton(14))
-            {
-                panel.setLight(10, 0);//Turn off light 10
-                state = State.Playback;
+                if (panel.getButton(14)) {
+                    panel.setLight(10, 0);//Turn off light 10
+                    state = State.Playback;
+                    panel.setTimer(24);
+                    firstPlay = true;
+                }
+            if(firstPlay) {
+                if(button != -1) {
+                    checkWin.add("mm" + (button-1));
+                    panel.setLight((button), 1);
+                    state = State.CheckWinner;
+                }
             }
+
         }
 
-        if(state==State.Playback){
+        if(state==State.CheckWinner){
+                state = State.UserInput;
+        }
+
+        if(state==State.Playback && panel.timerReady()){
             if(playbackPlace != memory.size())
             {
                 //Play sound
