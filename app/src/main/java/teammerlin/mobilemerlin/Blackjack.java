@@ -18,6 +18,7 @@ public class Blackjack extends Minigame {
     boolean stand;
     boolean bust;
     boolean merlinbust;
+    boolean freeze;
     private int timer;
     ArrayList<Integer> deck;
 
@@ -36,9 +37,9 @@ public class Blackjack extends Minigame {
         displaychips = true;
         newhand = false;
         deck = new ArrayList<Integer>();
-
         bust = false;
         merlinbust = false;
+        freeze = false;
     }
 
     @Override
@@ -52,6 +53,8 @@ public class Blackjack extends Minigame {
             panel.playSound("lose");
             stand = false;
             userhand = 0;
+            freeze = true;
+
 
         }
 
@@ -64,6 +67,7 @@ public class Blackjack extends Minigame {
             chips++;
             stand = false;
             dealerhand = 0;
+            freeze = true;
 
         }
 
@@ -76,6 +80,7 @@ public class Blackjack extends Minigame {
             userhand=0;
 
             chips++;
+            freeze = true;
         }
 
 
@@ -85,6 +90,7 @@ public class Blackjack extends Minigame {
             panel.playSound("lose");
             stand = false;
             dealerhand = 0;
+            freeze = true;
 
         }
 
@@ -160,7 +166,9 @@ public class Blackjack extends Minigame {
                     //dealerhand=0;
                     //userhand=0;
                     stand = false;
+                    freeze = true;
                     chips++;
+
                 }
 
                 if(dealerhand>userhand)
@@ -169,6 +177,7 @@ public class Blackjack extends Minigame {
                     //dealerhand = 0;
                     //userhand = 0;
                     stand = false;
+                    freeze = true;
 
                 }
             }
@@ -227,15 +236,17 @@ public class Blackjack extends Minigame {
     {
         //button 13 = hit me
         //button 14 = comp turn
-        if(panel.getButton(13))
-        {
-            hit = true;
-            i++;
-        }
 
-        if(panel.getButton(14))
+        if(freeze == false)
         {
-            stand = true;
+            if (panel.getButton(13)) {
+                hit = true;
+                i++;
+            }
+
+            if (panel.getButton(14)) {
+                stand = true;
+            }
         }
 
     }
