@@ -128,12 +128,51 @@ public class Panel extends GameObject
 		((CircleButton)buttons[index]).setLight(value);
 	}
 
+	public void switchLight(int index)
+	{
+		CircleButton button = (CircleButton)buttons[index];
+
+		if(button.getLight() == 0)
+		{
+			setLight(index, 1);
+		}
+		else if(button.getLight() == 1)
+		{
+			setLight(index, 0);
+		}
+	}
+
 	public void clearLights()
 	{
 		for(int l = 0; l < 11; l++)
 		{
 			((CircleButton)buttons[l]).setLight(0);
 		}
+	}
+
+	public boolean isMagicSquare()
+	{
+		boolean value = true;
+
+		for(int i = 1; i < 10; i++)
+		{
+			if(i != 5)//If not the middle light
+			{
+				if(((CircleButton)buttons[i]).getLight() != 1)//If light isnt on
+				{
+					value = false;
+				}
+			}
+			else
+			{
+				if(((CircleButton)buttons[i]).getLight() != 0)//If light isnt off
+				{
+					value = false;
+				}
+			}
+		}
+
+		return value;
 	}
 	
 	public boolean getButton(int index)
