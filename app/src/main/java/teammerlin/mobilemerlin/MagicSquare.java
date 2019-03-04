@@ -9,7 +9,8 @@ public class MagicSquare extends Minigame {
         RandomLights(),
         UserInput(),
         CheckLight(),
-        Finish();
+        Finish(),
+        Freeze();
     }
 
     State state;
@@ -184,6 +185,7 @@ public class MagicSquare extends Minigame {
                 }
 
                 panel.playSound("win");
+                state = State.Freeze;
             }
         }
 

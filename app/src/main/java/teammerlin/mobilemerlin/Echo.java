@@ -15,13 +15,15 @@ public class Echo extends Minigame {
 
     private State state;
     private int length;
-    private LinkedList<String> memory;
-    private ArrayList<String> checkWin;
+    private LinkedList<Integer> memory;
+    private ArrayList<Integer> checkWin;
     private int playbackPlace;
     private int addNote;
     private Random random = new Random();
     boolean firstPlay = false;
     private int index;
+    private int guessCount;
+    private int guessesCorrect;
 
     ArrayList<String> list = new ArrayList<String>();
 
@@ -30,19 +32,12 @@ public class Echo extends Minigame {
         super();
         state = State.ChooseLength;
         length = 1;
-        memory = new LinkedList<String>();
-        checkWin = new ArrayList<String>();
+        memory = new LinkedList<Integer>();
+        checkWin = new ArrayList<Integer>();
         playbackPlace = 0;
         addNote = 1;
-        list.add("mm0");
-        list.add("mm1");
-        list.add("mm2");
-        list.add("mm3");
-        list.add("mm4");
-        list.add("mm5");
-        list.add("mm6");
-        list.add("mm7");
-        list.add("mm8");
+        guessCount = 0;
+        guessesCorrect = 0;
     }
 
     @Override
@@ -59,42 +54,79 @@ public class Echo extends Minigame {
                 state=State.UserInput;
                 for(addNote=1; addNote<=length; addNote++) //Create random tune
                 {
-                    memory.add(getRandomButton(list));
+                    memory.add(getRandomButton());
                 }
             }
         }
 
         if(state==State.UserInput){
             //If Comp Turn is pressed
-                if (panel.getButton(14)) {
-                    panel.setLight(10, 0);//Turn off light 10
-                    state = State.Playback;
-                    panel.setTimer(24);
-                    firstPlay = true;
-                }
+            if (panel.getButton(14)) {
+                panel.setLight(10, 0);//Turn off light 10
+                state = State.Playback;
+                panel.setTimer(24);
+                firstPlay = true;
+            }
+
+
             if(firstPlay) {
                 if(button != -1) {
-                    checkWin.add("mm" + (button-1));
-                    panel.setLight((button), 1);
-                    state = State.CheckWinner;
+                    checkWin.add(button);
+
+                    System.out.println("UISDGJHSDFBKJDSFJQ" + memory.get(guessCount));
+                    System.out.println("UISDGJHSDFBKJDSFJQ" + checkWin.get(guessCount));
+                    System.out.println("UISDGJHSDFBKJDSFJQ" + (memory.get(guessCount) == checkWin.get(guessCount)));
+                    if(memory.get(guessCount) == checkWin.get(guessCount))//Guess correct
+                    {
+                        System.out.println("UISDGJHSDFBKJDSFJQ IM IN YUOU COCK");
+                        panel.setLight(button, 1);
+                        panel.playSound(buttonToSound(button));
+                        guessesCorrect++;
+                    }
+                    else//Guess incorrect
+                    {
+                        panel.playSound("buzz");
+                    }
+                    guessCount++;
+
+                    if(guessCount == length)//Once length of guesses have been entered
+                    {
+                        panel.setTimer(24);
+                        state = State.CheckWinner;
+                    }
                 }
             }
 
         }
 
-        if(state==State.CheckWinner){
-                state = State.UserInput;
+        if(state==State.CheckWinner && panel.timerReady())
+        {
+            panel.clearLights();
+            if(guessesCorrect == length)
+            {
+                panel.playSound("win");
+            }
+            else
+            {
+                panel.playSound("lose");
+                panel.setLight((length-guessesCorrect), 2);
+            }
+
+            guessCount = 0;
+            guessesCorrect = 0;
+            checkWin.clear();
+            state = State.UserInput;
         }
 
         if(state==State.Playback && panel.timerReady()){
             if(playbackPlace != memory.size())
             {
                 //Play sound
-                panel.playSound(memory.get(playbackPlace));
+                panel.playSound(buttonToSound(memory.get(playbackPlace)));
 
                 //Set lights
                 panel.clearLights();
-                panel.setLight(buttonToLight(memory.get(playbackPlace)), 1);
+                panel.setLight(memory.get(playbackPlace), 1);
 
                 //Move to next sound
                 playbackPlace++;
@@ -122,39 +154,35 @@ public class Echo extends Minigame {
         return -1;
     }
 
-    private String getRandomButton(List<String>list){ //choose a random button from the list
-        int index = random.nextInt(list.size());
-        return list.get(index);
+    private int getRandomButton(){ //choose a random button from the list
+        int index = random.nextInt(9);
+        return index+1;
     }
 
-    private int buttonToLight(String s)
+    private String buttonToSound(int b)
     {
-        switch(s)
+        switch(b)
         {
-            case "pause":
-                return 0;
-            case "mm0":
-                return 1;
-            case "mm1":
-                return 2;
-            case "mm2":
-                return 3;
-            case "mm3":
-                return 4;
-            case "mm4":
-                return 5;
-            case "mm5":
-                return 6;
-            case "mm6":
-                return 7;
-            case "mm7":
-                return 8;
-            case "mm8":
-                return 9;
-            case "mm9":
-                return 10;
+            case 1:
+                return "mm0";
+            case 2:
+                return "mm1";
+            case 3:
+                return "mm2";
+            case 4:
+                return "mm3";
+            case 5:
+                return "mm4";
+            case 6:
+                return "mm5";
+            case 7:
+                return "mm6";
+            case 8:
+                return "mm7";
+            case 9:
+                return "mm8";
         }
-        return 0;
+        return "mm9";
     }
 
 }
