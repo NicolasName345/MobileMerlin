@@ -71,11 +71,19 @@ public class MagicSquare extends Minigame {
         {
             panel.setLight(0,0);
             panel.setLight(10,0);
+
+            if (panel.getButton(0) || panel.getButton(10))
+            {
+                panel.playSound("mm9");
+                state = State.CheckLight;
+            }
+
             if (panel.getButton(1))
             {
                 for (int i =0; i<buttonOne.length;i++)
                     panel.switchLight(buttonOne[i]);
 
+                panel.playSound("mm0");
                 state = State.CheckLight;
             }
 
@@ -84,6 +92,7 @@ public class MagicSquare extends Minigame {
                 for (int i =0; i<buttonTwo.length;i++)
                     panel.switchLight(buttonTwo[i]);
 
+                panel.playSound("mm1");
                 state = State.CheckLight;
             }
 
@@ -92,6 +101,7 @@ public class MagicSquare extends Minigame {
                 for (int i =0; i<buttonThree.length;i++)
                     panel.switchLight(buttonThree[i]);
 
+                panel.playSound("mm2");
                 state = State.CheckLight;
             }
 
@@ -100,6 +110,7 @@ public class MagicSquare extends Minigame {
                 for (int i =0; i<buttonFour.length;i++)
                     panel.switchLight(buttonFour[i]);
 
+                panel.playSound("mm3");
                 state = State.CheckLight;
             }
 
@@ -108,6 +119,7 @@ public class MagicSquare extends Minigame {
                 for (int i =0; i<buttonFive.length;i++)
                     panel.switchLight(buttonFive[i]);
 
+                panel.playSound("mm4");
                 state = State.CheckLight;
             }
 
@@ -116,6 +128,7 @@ public class MagicSquare extends Minigame {
                 for (int i =0; i<buttonSix.length;i++)
                     panel.switchLight(buttonSix[i]);
 
+                panel.playSound("mm5");
                 state = State.CheckLight;
             }
 
@@ -124,6 +137,7 @@ public class MagicSquare extends Minigame {
                 for (int i =0; i<buttonSeven.length;i++)
                     panel.switchLight(buttonSeven[i]);
 
+                panel.playSound("mm6");
                 state = State.CheckLight;
             }
 
@@ -132,6 +146,7 @@ public class MagicSquare extends Minigame {
                 for (int i =0; i<buttonEight.length;i++)
                     panel.switchLight(buttonEight[i]);
 
+                panel.playSound("mm7");
                 state = State.CheckLight;
             }
 
@@ -141,6 +156,7 @@ public class MagicSquare extends Minigame {
                 for (int i =0; i<buttonNine.length;i++)
                     panel.switchLight(buttonNine[i]);
 
+                panel.playSound("mm8");
                 state = State.CheckLight;
             }
 
@@ -150,6 +166,7 @@ public class MagicSquare extends Minigame {
             {
                 if (panel.isMagicSquare())
                 {
+                    panel.setTimer(24);
                     state = State.Finish;
                 }
                 else
@@ -159,12 +176,14 @@ public class MagicSquare extends Minigame {
 
 
 
-            if(state == State.Finish)
+            if(state == State.Finish && panel.timerReady())
             {
                 for (int i = 0; i<magicSquare.length; i++)
                 {
                     panel.setLight(magicSquare[i],1);
                 }
+
+                panel.playSound("win");
             }
         }
 
