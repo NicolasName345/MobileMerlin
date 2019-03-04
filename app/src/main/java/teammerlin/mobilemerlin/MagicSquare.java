@@ -8,6 +8,7 @@ public class MagicSquare extends Minigame {
         ShowSquare(),
         RandomLights(),
         UserInput(),
+        CheckLight(),
         Finish();
     }
 
@@ -74,48 +75,64 @@ public class MagicSquare extends Minigame {
             {
                 for (int i =0; i<buttonOne.length;i++)
                     panel.switchLight(buttonOne[i]);
+
+                state = State.CheckLight;
             }
 
             if (panel.getButton(2))
             {
                 for (int i =0; i<buttonTwo.length;i++)
                     panel.switchLight(buttonTwo[i]);
+
+                state = State.CheckLight;
             }
 
             if (panel.getButton(3))
             {
                 for (int i =0; i<buttonThree.length;i++)
                     panel.switchLight(buttonThree[i]);
+
+                state = State.CheckLight;
             }
 
             if (panel.getButton(4))
             {
                 for (int i =0; i<buttonFour.length;i++)
                     panel.switchLight(buttonFour[i]);
+
+                state = State.CheckLight;
             }
 
             if (panel.getButton(5))
             {
                 for (int i =0; i<buttonFive.length;i++)
                     panel.switchLight(buttonFive[i]);
+
+                state = State.CheckLight;
             }
 
             if (panel.getButton(6))
             {
                 for (int i =0; i<buttonSix.length;i++)
                     panel.switchLight(buttonSix[i]);
+
+                state = State.CheckLight;
             }
 
             if (panel.getButton(7))
             {
                 for (int i =0; i<buttonSeven.length;i++)
                     panel.switchLight(buttonSeven[i]);
+
+                state = State.CheckLight;
             }
 
             if (panel.getButton(8))
             {
                 for (int i =0; i<buttonEight.length;i++)
                     panel.switchLight(buttonEight[i]);
+
+                state = State.CheckLight;
             }
 
 
@@ -123,14 +140,24 @@ public class MagicSquare extends Minigame {
             {
                 for (int i =0; i<buttonNine.length;i++)
                     panel.switchLight(buttonNine[i]);
+
+                state = State.CheckLight;
             }
 
             }
 
-            if (panel.isMagicSquare())
+            if (state == State.CheckLight)
             {
-                state = State.Finish;
+                if (panel.isMagicSquare())
+                {
+                    state = State.Finish;
+                }
+                else
+                    state = State.UserInput;
+
             }
+
+
 
             if(state == State.Finish)
             {
