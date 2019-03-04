@@ -3,7 +3,15 @@ package teammerlin.mobilemerlin;
 import java.util.Random;
 
 public class MagicSquare extends Minigame {
-    boolean showSquare,randomLights,userInput,finish;
+
+    private enum State {
+        ShowSquare(),
+        RandomLights(),
+        UserInput(),
+        Finish();
+    }
+
+    State state;
     int timer;
     int[] random = new int[4];
     int[] magicSquare = {1,2,3,4,6,7,8,9};
@@ -20,14 +28,14 @@ public class MagicSquare extends Minigame {
     public MagicSquare()
     {
         super();
-        showSquare = true;
+        state = State.ShowSquare;
         timer = 0;
     }
 
     @Override
     public void update(Panel panel)
     {
-        if (showSquare)
+        if (state == State.ShowSquare)
         {
             panel.clearLights();
             panel.setLight(1,2);
@@ -42,13 +50,12 @@ public class MagicSquare extends Minigame {
             timer++;
             if (timer == 30)
             {
-                showSquare = false;
-                randomLights = true;
+                state = State.RandomLights;
             }
 
         }
 
-        if (randomLights)
+        if (state == State.RandomLights)
         {
             panel.clearLights();
             for (int i=0; i<random.length;i++)
@@ -56,11 +63,10 @@ public class MagicSquare extends Minigame {
                 random[i] = getRandomNum();
                 panel.setLight(random[i],2);
             }
-            randomLights = false;
-            userInput = true;
+            state = State.UserInput;
         }
 
-        if (userInput)
+        if (state == State.UserInput)
         {
             panel.setLight(0,0);
             panel.setLight(10,0);
@@ -123,12 +129,10 @@ public class MagicSquare extends Minigame {
 
             if (panel.isMagicSquare())
             {
-                userInput = false;
-                finish = true;
-            }
+                state = State.Finish;
             }
 
-            if (finish)
+            if(state == State.Finish)
             {
                 for (int i = 0; i<magicSquare.length; i++)
                 {

@@ -134,9 +134,9 @@ public class Panel extends GameObject
 
 		if(button.getLight() == 0)
 		{
-			setLight(index, 1);
+			setLight(index, 2);
 		}
-		else if(button.getLight() == 1)
+		else if(button.getLight() == 2)
 		{
 			setLight(index, 0);
 		}
@@ -158,7 +158,7 @@ public class Panel extends GameObject
 		{
 			if(i != 5)//If not the middle light
 			{
-				if(((CircleButton)buttons[i]).getLight() != 1)//If light isnt on
+				if(((CircleButton)buttons[i]).getLight() != 2)//If light isnt blinking
 				{
 					value = false;
 				}
