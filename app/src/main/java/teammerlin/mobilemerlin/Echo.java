@@ -5,10 +5,6 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
 
-import teammerlin.game.GameState;
-import teammerlin.mobilemerlin.Minigame;
-import teammerlin.mobilemerlin.Panel;
-
 public class Echo extends Minigame {
     private enum State {
         UserInput(),
