@@ -65,6 +65,12 @@ public class MerlinFramework extends Game
 		//Game Updating
 		panel.update(touchState);
 
+		//Toggle Colour Button
+        if(panel.getButton(15))
+        {
+            panel.toggleColour();
+        }
+
 		switch(currentState)
 		{
 			case Default:
@@ -195,7 +201,7 @@ public class MerlinFramework extends Game
 
                 if(panel.getButton(12))//Same Game pressed
                 {
-                    nextState = GameState.SameGame;
+                    blackjack.sameGame(panel);
                 }
                 break;
 
@@ -264,12 +270,13 @@ public class MerlinFramework extends Game
 
 	private void loadImages()
 	{
-		images = new Bitmap[4];
+		images = new Bitmap[5];
 
 		images[0] = BitmapFactory.decodeResource(context.getResources(), R.drawable.newgamebutton);
 		images[1] = BitmapFactory.decodeResource(context.getResources(), R.drawable.samegamebutton);
 		images[2] = BitmapFactory.decodeResource(context.getResources(), R.drawable.hitmebutton);
 		images[3] = BitmapFactory.decodeResource(context.getResources(), R.drawable.compturnbutton);
+		images[4] = BitmapFactory.decodeResource(context.getResources(), R.drawable.togglecolour);
 	}
 
 	private void loadSounds()
@@ -286,7 +293,7 @@ public class MerlinFramework extends Game
         sounds.put("mm7", soundPool.load(context, R.raw.music7, 1));
         sounds.put("mm8", soundPool.load(context, R.raw.music8, 1));
         sounds.put("mm9", soundPool.load(context, R.raw.music9, 1));
-        sounds.put("blackjackComplete", soundPool.load(context, R.raw.blackjackcomp, 1));
+        sounds.put("blackjackComp", soundPool.load(context, R.raw.blackjackcomp, 1));
         sounds.put("buzz", soundPool.load(context, R.raw.buzz, 1));
         sounds.put("tttCircle", soundPool.load(context, R.raw.circle, 1));
         sounds.put("tttCross", soundPool.load(context, R.raw.cross, 1));

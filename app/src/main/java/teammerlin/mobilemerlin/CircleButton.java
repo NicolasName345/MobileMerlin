@@ -21,11 +21,18 @@ public class CircleButton extends Button {
         super.draw(c, p);
     }
 
-    public void draw(Canvas c, Paint p, boolean  blinking) {
+    public void draw(Canvas c, Paint p, boolean  blinking, boolean isRed) {
         super.draw(c, p);
 
         //Draw Square
-        p.setARGB(255, 120, 0,1);
+        if(isRed)
+        {
+            p.setARGB(255, 120, 0,1);
+        }
+        else
+        {
+            p.setARGB(255, 12, 12,55);
+        }
         c.drawRect(x, y, x + s(50), y + s(50), p);
 
         //Draw Silver Circle

@@ -27,7 +27,7 @@ public class Panel extends GameObject
     SoundPool soundPool;
 
 	int timer, gameTimer, gameTimerLimit;
-	boolean blinking, gameTimerReady;
+	boolean blinking, gameTimerReady, isRed;
 
 	public Panel(int x, int y, float scale, Bitmap[] images, HashMap<String, Integer> sounds, SoundPool soundPool, ID id)
 	{
@@ -42,6 +42,7 @@ public class Panel extends GameObject
 		gameTimerLimit = 1;
 		gameTimerReady = false;
 		blinking = false;
+		isRed = true;
 	}
 
 	@Override
@@ -97,25 +98,33 @@ public class Panel extends GameObject
 	public void draw(Canvas c, Paint p) {
 		
 		//Draw Back
-		p.setARGB(255, 148, 19,9);
+		if(isRed)
+		{
+			p.setARGB(255, 148, 19,9);
+		}
+		else
+		{
+			p.setARGB(255, 12, 12,92);
+		}
         c.drawRect(x, y, x + s(270), y + s(480), p);
 
 		//Draw Circle Buttons
-		((CircleButton)buttons[0]).draw(c, p, blinking);
+		((CircleButton)buttons[0]).draw(c, p, blinking, isRed);
 		for(int l = 0; l < 3; l++)
 		{
 			for(int m = 0; m < 3; m++)
 			{
-				((CircleButton)buttons[((l * 3) + 1) + m]).draw(c, p, blinking);
+				((CircleButton)buttons[((l * 3) + 1) + m]).draw(c, p, blinking, isRed);
 			}
 		}
-		((CircleButton)buttons[10]).draw(c, p, blinking);
+		((CircleButton)buttons[10]).draw(c, p, blinking, isRed);
 		
 		//Draw Square Buttons
 		((SquareButton)buttons[11]).draw(c, p);
 		((SquareButton)buttons[12]).draw(c, p);
 		((SquareButton)buttons[13]).draw(c, p);
 		((SquareButton)buttons[14]).draw(c, p);
+        ((SquareButton)buttons[15]).draw(c, p);
 	}
 
 	public void playSound(String key)
@@ -174,6 +183,18 @@ public class Panel extends GameObject
 
 		return value;
 	}
+
+	public void toggleColour()
+    {
+        if(isRed)
+        {
+            isRed = false;
+        }
+        else
+        {
+            isRed = true;
+        }
+    }
 	
 	public boolean getButton(int index)
 	{
@@ -182,7 +203,7 @@ public class Panel extends GameObject
 
 	private void setButtons(Bitmap[] images)
 	{
-		buttons = new Button[15];
+		buttons = new Button[16];
 
 		buttons[0] = new CircleButton(x + s(110), y + s(25), s(50), s(50), scale, ID.CircleButton);
 		for(int l = 0; l < 3; l++)
@@ -198,5 +219,6 @@ public class Panel extends GameObject
 		buttons[12] = new SquareButton(x + s(145), y + s(340), s(50), s(50), images[1], scale, ID.SquareButton);
 		buttons[13] = new SquareButton(x + s(75), y + s(405), s(50), s(50), images[2], scale, ID.SquareButton);
 		buttons[14] = new SquareButton(x + s(145), y + s(405), s(50), s(50), images[3], scale, ID.SquareButton);
+		buttons[15] = new SquareButton(x + s(8), y + s(8), s(40), s(40), images[4], scale, ID.SquareButton);
 	}
 }
