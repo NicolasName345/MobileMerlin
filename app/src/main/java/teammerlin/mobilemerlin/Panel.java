@@ -125,6 +125,7 @@ public class Panel extends GameObject
 		((SquareButton)buttons[13]).draw(c, p);
 		((SquareButton)buttons[14]).draw(c, p);
         ((SquareButton)buttons[15]).draw(c, p);
+		((SquareButton)buttons[16]).draw(c, p);
 	}
 
 	public void playSound(String key)
@@ -203,7 +204,7 @@ public class Panel extends GameObject
 
 	private void setButtons(Bitmap[] images)
 	{
-		buttons = new Button[16];
+		buttons = new Button[17];
 
 		buttons[0] = new CircleButton(x + s(110), y + s(25), s(50), s(50), scale, ID.CircleButton);
 		for(int l = 0; l < 3; l++)
@@ -220,5 +221,6 @@ public class Panel extends GameObject
 		buttons[13] = new SquareButton(x + s(75), y + s(405), s(50), s(50), images[2], scale, ID.SquareButton);
 		buttons[14] = new SquareButton(x + s(145), y + s(405), s(50), s(50), images[3], scale, ID.SquareButton);
 		buttons[15] = new SquareButton(x + s(8), y + s(8), s(40), s(40), images[4], scale, ID.SquareButton);
+		buttons[16] = new SquareButton(x + s(222), y + s(8), s(40), s(40), images[5], scale, ID.SquareButton);
 	}
 }

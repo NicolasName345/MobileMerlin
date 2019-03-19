@@ -1,6 +1,7 @@
 package teammerlin.mobilemerlin;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
@@ -8,6 +9,7 @@ import android.graphics.Paint;
 import android.media.AudioAttributes;
 import android.media.MediaPlayer;
 import android.media.SoundPool;
+import android.net.Uri;
 
 import java.util.HashMap;
 
@@ -69,6 +71,15 @@ public class MerlinFramework extends Game
         if(panel.getButton(15))
         {
             panel.toggleColour();
+        }
+
+        //Manual Button
+        if(panel.getButton(16))
+        {
+            String url = "http://www.theelectronicwizard.com/manual.pdf";
+            Intent i = new Intent(Intent.ACTION_VIEW);
+            i.setData(Uri.parse(url));
+            context.startActivity(i);
         }
 
 		switch(currentState)
@@ -270,13 +281,14 @@ public class MerlinFramework extends Game
 
 	private void loadImages()
 	{
-		images = new Bitmap[5];
+		images = new Bitmap[6];
 
 		images[0] = BitmapFactory.decodeResource(context.getResources(), R.drawable.newgamebutton);
 		images[1] = BitmapFactory.decodeResource(context.getResources(), R.drawable.samegamebutton);
 		images[2] = BitmapFactory.decodeResource(context.getResources(), R.drawable.hitmebutton);
 		images[3] = BitmapFactory.decodeResource(context.getResources(), R.drawable.compturnbutton);
 		images[4] = BitmapFactory.decodeResource(context.getResources(), R.drawable.togglecolour);
+        images[5] = BitmapFactory.decodeResource(context.getResources(), R.drawable.manualbutton);
 	}
 
 	private void loadSounds()
